@@ -11,17 +11,24 @@ public class PlatformControls : MonoBehaviour
 
     public int CoinsCollected = 0;
 
-    bool IsGrounded;
+    private bool IsGrounded;
+    private bool IsFacingRight = true;
+
+
+    private Animator playerAnim;
+    private SpriteRenderer playerSpriteRenderer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerAnim = GetComponent<Animator>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
     }
-
     // Update is called once per frame
     void Update()
     {
-        
+        playerAnim.SetBool("IsRunning", rb.linearVelocity.x != 0);
+        playerAnim.SetBool("IsGrounded", IsGrounded);
     }
     void OnMove(InputValue value)
     {
@@ -29,6 +36,16 @@ public class PlatformControls : MonoBehaviour
         Debug.Log(v);
 
         rb.linearVelocity = new Vector2(v.x * speed, rb.linearVelocity.y);
+        if((v.x < 0) && IsFacingRight)
+        {
+            playerSpriteRenderer.flipX = true;
+            IsFacingRight = false;
+        }
+        if((v.x > 0) && IsFacingRight == false)
+        {
+            playerSpriteRenderer.flipX = false;
+            IsFacingRight = true;
+        }
     }
     void OnJump()
     {
