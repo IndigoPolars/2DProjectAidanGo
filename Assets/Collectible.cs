@@ -19,7 +19,7 @@ public class Collectible : MonoBehaviour
         {
             PlatformControls p = col.GetComponent<PlatformControls>();
             p.CoinsCollected++;
-            Debug.Log(p.CoinsCollected);
+            Debug.Log("You have: " + p.CoinsCollected + " coins.");
             Destroy(this.gameObject);
         }
     }

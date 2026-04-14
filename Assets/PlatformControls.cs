@@ -5,7 +5,8 @@ public class PlatformControls : MonoBehaviour
 {
     public float speed;
     public float jumpForce;
-
+    public float jumpForce2;
+    private int doubleJump;
     private Rigidbody2D rb;
 
     public int CoinsCollected = 0;
@@ -34,12 +35,23 @@ public class PlatformControls : MonoBehaviour
        if(IsGrounded)
        {
             rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-       }
+       } 
+       else if(doubleJump == 1)
+        {
+            rb.AddForce(new Vector2(0, jumpForce2), ForceMode2D.Impulse);
+            doubleJump = doubleJump - 1;
+        }
+
        
     }
     void OnTriggerEnter2D()
     {
+
         IsGrounded = true;
+        if(doubleJump == 0)
+        {
+            doubleJump = doubleJump + 1;
+        }
     }
     void OnTriggerExit2D()
     {
